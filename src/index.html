@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://api.anthropic.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Emmet Stream</title>
+<meta name="description" content="A big model streams page structure as Emmet, the browser expands each line instantly, and a fast model fills the text slots in parallel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="app.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="shell">
+  <div class="head">
+    <h1>Emmet Stream <code>big model → structure · fast model → words</code></h1>
+    <p>The structure model writes the page as Emmet abbreviations with empty text slots. Each line expands to HTML the moment it arrives, and a fast model fills the slots in parallel. Kit mode adds a shipped stylesheet, reusable parts and HTML-first ordering. <a href="https://github.com/draganescu/emmet-stream">Source on GitHub</a>.</p>
+  </div>
+
+  <div class="app">
+    <div class="side">
+      <section class="panel" aria-label="API key">
+        <label class="label" for="apiKey">Anthropic API key</label>
+        <div class="row keyrow">
+          <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…">
+          <button id="forgetKey" type="button">Forget</button>
+        </div>
+        <label class="check"><input type="checkbox" id="rememberKey"> Remember on this device</label>
+        <p class="note" id="keyNote">Your key stays in this browser and is sent only to api.anthropic.com, enforced by this page's Content Security Policy. Without “remember”, it is kept for this tab only. Runs are billed to your account.</p>
+        <p class="warn" id="httpsNote" hidden>Live runs are disabled because this page is not served over HTTPS. The replay still works.</p>
+      </section>
+
+      <section class="panel" aria-label="Run">
+        <label class="label" for="prompt">Page to build</label>
+        <textarea id="prompt">A landing page for Ferment Lab, a neighborhood fermentation workshop in Arroios, Lisbon: kombucha, hot sauce and kimchi classes, a Friday tasting bar, and a monthly starter-culture subscription.</textarea>
+        <div class="fields">
+          <div class="field wide"><label class="label" for="mode">Notation</label>
+            <select id="mode"><option value="kit">Kit: stylesheet + parts, HTML first</option><option value="v1">v1: Emmet + full CSS</option></select></div>
+          <div class="field"><label class="label" for="bigModel">Structure model</label><select id="bigModel"></select></div>
+          <div class="field"><label class="label" for="bigEffort">Structure effort</label><select id="bigEffort"></select></div>
+          <div class="field"><label class="label" for="fastModel">Text model</label><select id="fastModel"></select></div>
+          <div class="field"><label class="label" for="fastEffort">Text effort</label><select id="fastEffort"></select></div>
+          <div class="field"><label class="label" for="baseModel">Raw-HTML baseline model</label><select id="baseModel"></select></div>
+          <div class="field"><label class="label" for="baseEffort">Baseline effort</label><select id="baseEffort"></select></div>
+        </div>
+        <div class="row">
+          <button class="primary" id="runLive" disabled>Run live</button>
+          <button id="runBase" disabled>Run raw-HTML baseline</button>
+          <button id="runReplay">Replay sample</button>
+          <button id="stop" hidden>Stop</button>
+        </div>
+        <p class="baseinfo" id="baseInfo">No stored baseline for this prompt and model yet.</p>
+        <p class="status" id="status">Starting the sample replay…</p>
+      </section>
+
+      <section class="panel" aria-label="Result">
+        <span class="label">Against raw HTML</span>
+        <div class="boxes">
+          <div class="box"><span class="k">Page complete</span><span class="v" id="bDone">–</span><span class="d" id="bDoneD">&nbsp;</span></div>
+          <div class="box"><span class="k">First layout</span><span class="v" id="bPaint">–</span><span class="d" id="bPaintD">&nbsp;</span></div>
+          <div class="box"><span class="k">Big-model output</span><span class="v" id="bTok">–</span><span class="d" id="bTokD">&nbsp;</span></div>
+        </div>
+        <p class="cmpsrc" id="cmpSrc">&nbsp;</p>
+        <table class="cmp" aria-label="Detailed comparison">
+          <thead><tr><th></th><th>This run</th><th>Raw HTML</th><th>Difference</th></tr></thead>
+          <tbody id="cmpBody"></tbody>
+        </table>
+        <p class="note">Live runs report the output tokens the API billed, thinking included. Replays and projections count tokens with the cl100k tokenizer as a stand-in. Projected numbers assume raw HTML streams at this run's measured speed.</p>
+      </section>
+
+      <section class="panel" aria-label="Timeline">
+        <div class="row spread"><span class="label">Timeline</span><span class="legend"><span><i class="sw sw-big"></i>structure</span><span><i class="sw sw-fast"></i>text</span><span><i class="sw sw-base"></i>raw HTML</span><span><i class="sw sw-think"></i>thinking</span></span></div>
+        <div class="tlwrap"><div class="tl" id="tl"></div><div class="axis" id="axis"></div><div class="tlmarks" id="tlmarks"></div></div>
+        <p class="note">Green lines: first layout on screen, then page complete.</p>
+      </section>
+    </div>
+
+    <section class="panel view" aria-label="Output">
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-tab="preview">Preview</button>
+        <button role="tab" aria-selected="false" data-tab="compact">Compact stream</button>
+        <button role="tab" aria-selected="false" data-tab="expanded">Expanded HTML</button>
+        <button role="tab" aria-selected="false" data-tab="baseline">Raw-HTML baseline</button>
+        <button role="tab" aria-selected="false" data-tab="runs">Runs</button>
+        <span class="spacer"></span>
+        <button id="save" hidden>Download HTML</button>
+      </div>
+      <div class="pane" data-pane="preview"><iframe id="frame" title="Generated page preview" sandbox="allow-same-origin"></iframe></div>
+      <div class="pane" data-pane="compact" hidden><pre id="compactPre"></pre></div>
+      <div class="pane" data-pane="expanded" hidden><pre id="expandedPre"></pre></div>
+      <div class="pane" data-pane="baseline" id="basePane" hidden><div id="baseBar"><span id="baseBarText">No baseline stored for this prompt and model.</span><button id="baseForget" hidden>Forget this baseline</button></div><div class="empty" id="baseEmpty">Run the raw-HTML baseline: the chosen model writes this page directly as HTML with real text. The result is stored in this browser and used for every later comparison on the same prompt and model.</div><iframe id="baseFrame" title="Raw HTML baseline preview" sandbox="" hidden></iframe></div>
+      <div class="pane" data-pane="runs" hidden><div class="runs"><div class="row spread"><span class="label">Runs in this browser</span><button id="clearRuns">Clear runs</button></div><div class="tw"><table><thead><tr><th>When</th><th>Kind</th><th>Model</th><th>Thinking</th><th>First layout</th><th>Complete</th><th>Big-model tokens</th><th>Text tokens</th></tr></thead><tbody id="runsBody"></tbody></table></div><p class="note">Run each setup a few times; single runs vary a lot with server load.</p></div></div>
+    </section>
+  </div>
+</div>
+</body>
+</html>

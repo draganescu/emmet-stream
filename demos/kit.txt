@@ -1,0 +1,70 @@
+#brief
+brand: Ferment Lab, a neighborhood fermentation workshop in Arroios, Lisbon
+voice: curious, hands-on, lightly nerdy; short sentences; no hype
+audience: people who cook at home, 25-45, locals and newcomers
+offer: small classes (kombucha, hot sauce, kimchi), a Friday tasting bar, a monthly starter-culture box
+claims: 8 people max per class; you leave with a jar you made; our cultures have been alive since 2019
+#theme
+bg: #f3eee4
+ink: #1f2a1c
+muted: #56604f
+accent: #c8452c
+accent-ink: #fff8ef
+alt: #3f6b35
+surface: #e8dcc2
+line: #d6c9ae
+font-d: Fraunces, Georgia, serif
+font-b: Work Sans, system-ui, sans-serif
+r: 22
+space: 1
+#parts
+cls = article.card>div.media.wide.m$+span.pill{@@_meta|4-7w|duration, price, group size}+h3{@@_name|2-3w|class name}+p{@@_body|18-24w|what you make and take home}
+step = li>h3{@@_t|2-3w|step name}+p{@@_b|12-16w|what happens}
+#html
+header.nav
+  a.logo[href=#]{@@brand|2w|studio name}
+  nav>a[href=#]{@@nav$|1w|section name}*4
+section.hero
+  div.w.split
+    div
+      p.eyebrow{@@hero_eyebrow|3-5w|where and since}
+      h1{@@hero_title|5-8w|bold promise about making it yourself}
+      p.lede{@@hero_lede|22-30w|what classes are and who they suit}
+      div.row>a.btn[href=#classes]{@@hero_cta|2-3w|book a class}+a.btn.ghost[href=#bar]{@@hero_cta2|3-4w|visit the tasting bar}
+    div.media.tall.m1[role=img aria-label=@@hero_alt]
+section
+  div.w.stats>div.stat*3>span.big{@@fact$_num|1-2w|a number}+span.muted{@@fact$_label|4-7w|what it means}
+section#classes.sec
+  div.w
+    div.head>p.eyebrow{@@classes_eyebrow|2-3w|label}+h2{@@classes_title|3-6w|section heading}+p.lede{@@classes_lede|15-20w|how classes work}
+    div.g3>@cls:class*3
+section.sec.inv
+  div.w.g12
+    h2{@@method_title|4-6w|how an evening runs}
+    ol.steps>@step:step*4
+section#bar.sec
+  div.w.split.rev
+    div.media.sq.m6
+    div
+      p.eyebrow{@@bar_eyebrow|2-4w|day and time}
+      h2{@@bar_title|4-7w|tasting bar invitation}
+      p{@@bar_body|25-35w|what is on tap and the mood}
+      a.btn[href=#]{@@bar_cta|2-3w|see this week}
+section.sec.alt
+  div.w.center
+    blockquote.quote{@@quote|18-26w|a regular describing their first class}
+    cite.who{@@quote_who|3-6w|name and neighborhood}
+section.sec.acc
+  div.w.g21
+    div
+      h2{@@box_title|4-6w|starter culture subscription}
+      p{@@box_body|20-28w|what arrives monthly and why}
+    form.form>input[type=email placeholder=@@box_ph aria-label=@@box_ph]+button.btn[type=button]{@@box_cta|2w|subscribe}
+footer.foot
+  div.w
+    p.logo{@@foot_brand|2w|studio name}
+    p{@@foot_address|6-10w|street address in Arroios}
+    p{@@foot_hours|6-10w|opening hours}
+#css
+.hero h1{maw:14ch}
+.acc .form{as:e}

@@ -1,0 +1,18 @@
+{
+  "name": "emmet-stream",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A big model streams web page structure as Emmet; the browser expands it line by line and a fast model fills the text in parallel.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch"
+  },
+  "dependencies": {
+    "emmet": "^2.4.11",
+    "gpt-tokenizer": "^2.9.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

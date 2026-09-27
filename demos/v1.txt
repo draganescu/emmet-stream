@@ -1,0 +1,102 @@
+#brief
+brand: Ferment Lab, a neighborhood fermentation workshop in Arroios, Lisbon
+voice: curious, hands-on, lightly nerdy; short sentences; no hype
+audience: people who cook at home, 25-45, locals and newcomers
+offer: small classes (kombucha, hot sauce, kimchi), a Friday tasting bar, a monthly starter-culture box
+claims: 8 people max per class; you leave with a jar you made; our cultures have been alive since 2019
+#css
+:root{--bg:#f3eee4;--ink:#1f2a1c;--leaf:#3f6b35;--chili:#c8452c;--jar:#e8d9b8;--line:#d6c9ae;--muted:#56604f}
+*{box-sizing:border-box}
+body{m0;font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;c:var(--ink);bgc:var(--bg);lh1.55}
+.wrap{maw1120;m0-a;p0-24}
+.top{d:f;jc:sb;ai:c;p20-24;maw1120;m0-a;gap16;flex-wrap:wrap}
+.brand{fw700;fz20;c:var(--ink);td:n;letter-spacing:.02em}
+.top nav{d:f;gap24;flex-wrap:wrap}
+.top nav a,.card__meta,.eyebrow,.fact__label,.btn{font-family:ui-sans-serif,system-ui,sans-serif}
+.top nav a{c:var(--ink);td:n;fz15}
+.hero{d:g;gtc:1.15fr .85fr;gap48;ai:c;p56-24-88;maw1120;m0-a}
+.eyebrow{tt:u;letter-spacing:.12em;fz12;fw600;c:var(--leaf);m0-0-14}
+.hero h1{font-size:clamp(2.4rem,5.5vw,4.4rem);lh1.03;m0-0-20;letter-spacing:-.02em;text-wrap:balance}
+.lede{fz19;max-width:34em;m0-0-28;c:var(--muted)}
+.actions{d:f;gap12;flex-wrap:wrap}
+.btn{d:ib;p13-22;bdrs999;bgc:var(--chili);c#fff;td:n;fw600;fz15;bd:n;cur:p}
+.btn--ghost{background:transparent;c:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.media{bdrs20;min-height:200px;background:linear-gradient(160deg,var(--jar),#cdb88a)}
+.media--hero{aspect-ratio:4/5;background:radial-gradient(circle at 32% 30%,#f7e7c3 0 17%,transparent 18%),radial-gradient(circle at 68% 64%,var(--chili) 0 13%,transparent 14%),linear-gradient(170deg,#86ad74,#3f6b35)}
+.facts{d:g;gtc:repeat(3,1fr);maw1120;m0-a;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fact{p28-24;d:f;fxd:c;gap4}
+.fact+.fact{border-left:1px solid var(--line)}
+.fact__num{fz40;lh1;c:var(--leaf)}
+.fact__label{fz14;c:var(--muted)}
+.classes{p96-0}
+h2{font-size:clamp(1.8rem,3.4vw,2.6rem);lh1.1;m0-0-14;letter-spacing:-.01em;text-wrap:balance}
+.section-lede{max-width:36em;c:var(--muted);m0-0-40}
+.cards{d:g;gtc:repeat(3,1fr);gap28}
+.card h3{fz24;m18-0-6}
+.card__meta{fz13;c:var(--chili);fw600;m0-0-10}
+.card p{m0}
+.card:nth-child(2) .media--card{background:linear-gradient(160deg,#e9b39a,var(--chili))}
+.card:nth-child(3) .media--card{background:repeating-linear-gradient(135deg,#9fbf8a 0 14px,#7fa66d 14px 28px)}
+.method{bgc:var(--ink);c:var(--bg);p96-0}
+.method__grid{d:g;gtc:1fr 1.4fr;gap56}
+.steps{list-style:none;p0;m0;d:g;gap22;counter-reset:s}
+.steps li{d:g;gtc:48px 1fr;column-gap:16px;counter-increment:s}
+.steps li::before{content:counter(s,decimal-leading-zero);font-family:ui-monospace,monospace;c:var(--jar);grid-row:span 2;pt4}
+.steps strong{fz20}
+.steps p{m4-0-0;opacity:.8}
+.bar{p96-0}
+.bar__grid{d:g;gtc:.9fr 1.1fr;gap56;ai:c}
+.media--bar{aspect-ratio:1;background:radial-gradient(circle at 50% 38%,#f3d27a 0 22%,transparent 23%),linear-gradient(200deg,#d9763f,#8a2f1e)}
+.box{p0-0-96}
+.box__inner{bgc:var(--jar);bdrs28;p56;d:g;gap12;justify-items:start}
+.box__inner p{max-width:38em;m0-0-12}
+.signup{d:f;gap10;w100p;maw480;flex-wrap:wrap}
+.signup input{flex:1;min-width:0;p13-18;bdrs999;bd:n;fz16;font-family:inherit}
+.foot{border-top:1px solid var(--line);p40-0}
+.foot__grid{d:g;gtc:1fr 1fr 1fr;gap24;fz14;c:var(--muted)}
+.foot__grid p{m0}
+@media (max-width:820px){.hero,.method__grid,.bar__grid{gtc:1fr}.cards,.facts{gtc:1fr}.fact+.fact{border-left:0;border-top:1px solid var(--line)}.foot__grid{gtc:1fr}.box__inner{p32}}
+#html
+header.top
+  a.brand[href=#]{@@brand|2w|studio name}
+  nav>a[href=#]{@@nav$|1w|section name}*4
+section.hero
+  div.copy
+    p.eyebrow{@@hero_eyebrow|3-5w|where and what}
+    h1{@@hero_title|5-8w|bold promise about making it yourself}
+    p.lede{@@hero_lede|22-30w|what classes are and who they suit}
+    div.actions
+      a.btn[href=#classes]{@@hero_cta|2-3w|book a class}
+      a.btn.btn--ghost[href=#bar]{@@hero_cta2|3-4w|visit the tasting bar}
+  div.media.media--hero[role=img aria-label=@@hero_media_alt]
+section.facts
+  div.fact*3>strong.fact__num{@@fact$_num|1-2w|a number}+span.fact__label{@@fact$_label|4-7w|what the number means}
+section#classes.classes
+  div.wrap
+    h2{@@classes_title|3-6w|section heading}
+    p.section-lede{@@classes_lede|15-20w|how classes work}
+    div.cards
+      article.card*3>div.media.media--card+h3{@@class$_name|2-3w|class name}+p.card__meta{@@class$_meta|4-7w|duration, price, group size}+p{@@class$_body|18-24w|what you make and take home}
+section.method
+  div.wrap.method__grid
+    h2{@@method_title|4-6w|how a session runs}
+    ol.steps>li*4>strong{@@step$_title|2-3w|step name}+p{@@step$_body|12-16w|what happens}
+section#bar.bar
+  div.wrap.bar__grid
+    div.media.media--bar
+    div
+      p.eyebrow{@@bar_eyebrow|2-4w|day and time}
+      h2{@@bar_title|4-7w|tasting bar invitation}
+      p{@@bar_body|25-35w|what is on tap and the mood}
+      a.btn[href=#]{@@bar_cta|2-3w|see this week}
+section.box
+  div.wrap
+    div.box__inner
+      h2{@@box_title|4-6w|starter culture subscription}
+      p{@@box_body|20-28w|what arrives monthly and why}
+      form.signup>input[type=email placeholder=@@box_placeholder aria-label=@@box_placeholder]+button.btn[type=button]{@@box_cta|2w|subscribe}
+footer.foot
+  div.wrap.foot__grid
+    p.brand{@@foot_brand|2w|studio name}
+    p{@@foot_address|6-10w|street address in Arroios}
+    p{@@foot_hours|6-10w|opening hours}
